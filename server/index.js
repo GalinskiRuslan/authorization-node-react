@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const router = require("./routers/index");
+const errorMiddleware = require("./middleware/error-middleware");
 
 const URL = process.env.PORT || 3000;
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 app.use("/api", router);
+app.use(errorMiddleware);
 
 const start = async () => {
   try {
