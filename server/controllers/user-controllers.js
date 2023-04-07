@@ -1,6 +1,7 @@
 const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
 const ApiErrors = require("../exeptions/api-error");
+const userModel = require("../models/user-model");
 
 class UserControllers {
   async registr(req, res, next) {
@@ -39,7 +40,7 @@ class UserControllers {
       const { refreshToken } = req.cookies;
 
       const Utoken = await userService.logout(refreshToken);
-      res.clearCookie(refreshToken);
+      res.clearCookie("refreshToken");
       return res.status(200).json({ refreshToken });
     } catch (error) {
       next(error);
@@ -56,13 +57,21 @@ class UserControllers {
   }
   async refreshToken(req, res, next) {
     try {
+      const { refreshToken } = req.cookies;
+      const UserLogin = await userService.refresh(refreshToken);
+      res.cookie("refreshToken", UserLogin.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      return res.json(UserLogin);
     } catch (error) {
       next(error);
     }
   }
   async getUsers(req, res, next) {
     try {
-      return res.json("123");
+      const users = await userService.getAllUsers();
+      return res.json({ users });
     } catch (error) {
       next(error);
     }
