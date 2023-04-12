@@ -8,7 +8,7 @@ class MailService {
       secure: true,
       auth: {
         user: "hiter_man@mail.ru",
-        pass: "rWTBhnpifYFsHFBzx8fB",
+        pass: "eFHs4ktQXy3Nj1kgR0vR",
       },
       tls: {
         rejectUnauthorized: false,

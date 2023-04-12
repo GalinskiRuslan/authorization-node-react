@@ -64,13 +64,15 @@ class UserService {
     return token;
   }
   async refresh(refreshToken) {
+    console.log("this in refresh func", refreshToken);
     if (!refreshToken) {
-      throw ApiErrors.Unautorization();
+      throw ApiErrors.Unautorization("this first bug in refresh");
     }
-    const userData = tokenService.validateRefreshToken();
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    console.log("this in refresh func", userData);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
-      throw ApiErrors.Unautorization();
+      throw ApiErrors.Unautorization("this second bug in refresh");
     }
     const user = await UserModel.findById(userData.id);
     const userDto = new UserDTO(user);
