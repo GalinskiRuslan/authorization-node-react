@@ -1,6 +1,5 @@
 import $api from "../http";
 import { AxiosResponse } from "axios";
-import { AuthResponse } from "../models/response/AuthResponse";
 import { IUser } from "../models/response/User";
 
 export default class UsersService {
